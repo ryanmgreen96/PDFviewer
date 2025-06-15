@@ -1,7 +1,7 @@
 {
     "name": "Text Organizer",
     "short_name": "Organizer",
-    "start_url": "index.html",
+    "start_url": "/PDFviewer/index.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
