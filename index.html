@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Categorizer</title>
+    <link rel="manifest" href="manifest.json">
+    <script src="jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Centaur, serif;
+            margin: 0;
+            padding: 20px;
+            background-color: white;
+            text-align: center;
+        }
+
+        .color-picker button,
+        .bookmark-jump {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+        }
+
+        .category-bar button {
+            margin: 5px;
+            padding: 5px 10px;
+        }
+
+        .text-piece {
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            padding: 10px;
+            max-width: 600px;
+            font-size: 133%;
+            text-align: left;
+        }
+
+        .title-display {
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        .edit-btn {
+            width: 20px;
+            height: 20px;
+            font-size: 0;
+            background-color: #ddd;
+            border: 1px solid #999;
+            margin-left: 5px;
+        }
+
+        .bookmark-check {
+            margin-left: 5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px #000;
+            z-index: 1001;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="color-picker">
+        <button data-color="white" style="background:white;"></button>
+        <button data-color="lightyellow" style="background:lightyellow;"></button>
+        <button data-color="lightblue" style="background:lightblue;"></button>
+        <button data-color="lightgray" style="background:lightgray;"></button>
+        <button class="bookmark-jump" title="Go to Bookmark">🔖</button>
+    </div>
+
+    <div class="category-bar">
+        <button data-filter="all">All</button>
+        <button data-filter="Philo">Philo</button>
+        <button data-filter="World">World</button>
+        <button data-filter="Reflection">Reflection</button>
+        <button data-filter="joy">Joy</button>
+    </div>
+
+    <div id="content">
+        <!-- Example text piece -->
+        <div class="text-piece" data-id="piece1">
+            <div class="title-display"></div>
+            <div class="text-body">
+                So, it is standard, as much as the scenario is expected, that for my children we wish well. But what this means is quite
+                different depending on your concerns for them. And at any rate, rather than divulge what you'd want, we may simply speak
+                to the two distinct approaches which one may take to preparing for and managing their childs life.
+                <br>&emsp;
+                 One, is to do with fortune, such as a home, a nest egg etc., while the other is of proficiency, or the promience of
+                one's ability to be sufficeint in their life. This latter is such, as to call on all people to meet their needs through
+                effort and duty, with proficiency being an extension of that. For one may be a minimum wage worker, and feed themselves
+                doing that; or they may be a plumber, or harness some other form of craft, to earn more -and through a more elegant and
+                flavorfull occupation at that. This compares with fortune, in that its goal is to provide freedom from effort; as one's
+                interest in investing into a home, or a fund, is so that it becomes an asset which pays you later on.
+                 But in regards to our cares for a child, it equates to what I, in my highest dreams would seek. And that this would
+                simply be the best of living: which our time is the soul factor, and limited by our employment of it: and this holds
+                little cares for all but sufficient funds. And at that, if we simply say that our aim is to spend our time well, then we
+                see, that despite the freeom fortunes afford, that their accumulation and preservation is done so through much ardor and
+                committment. Consequently, two drawbacks occur, namely the allocation of our time during the investing period, in both
+                the dedication to contributing (to your investment) and, in the case of a home, the riggidness that such an asset
+                brings; and secondly, upon the actual taste of the invesment all that time later on, that of the actual benefit it
+                offered, in the open lane for good living, that such goodness within living, in terms of one's aptitude and their
+                interest, had not yet been cultivated. And indeed, being ignorant of this is an error along all paths; but, in the case
+                of nurturing our fortune, so do its committments keep our culvitaion within the actual needs and love of living at a
+                compramised level.
+                 In that sense, our care for our children is present so much as we have a sight on such a situation; and I would say,
+                with an even head and tempered heart, that our interest in reaching such a scenario is complimentary, if not, at its
+                core, entirely derired from our more evident pleasures of friends and family, people in general. And at that we can say,
+                as a preface, that the wish for chidlren, or sight of them forthcoming, is likely due to its natural extension of our
+                already human interest. There is no genuine need for it, but our hearts tend to want otherwise; and, with some
+                relfection, it is fair to consider the composure of our selves and mind, and how any uneveness there may bend our
+                interests to something besides children; or, as it is sometimes known (or depicted), that such idea of children, coming
+                into us by the lens of our true selves, may be overly glarring and undesirable. But that is for such person to decide:
+                while we note their reasons otherwise.
+            </div>
+            <input type="checkbox" class="bookmark-check" title="Set Bookmark">
+            <button class="edit-btn" title="Edit">✎</button>
+        </div>
+    </div>
+    <div id="content">
+        <!-- Example text piece -->
+        <div class="text-piece" data-id="piece2">
+            <div class="title-display"></div>
+            <div class="text-body">
+                Right and wrong seem an awkward thing; for the basis of things can never be sure enough, as to offer a platform for such
+                <br>&emsp;
+                truths to sprout from.
+                 Yet, as a man, of humanity, and a member in associtation, I see how we are in the ways relevant to our portion of that
+                basis; at least the part of it which has sprouted into our neck of the woods.
+                 By that, I can speak only to what is sufficient, and what proficeincy would treat. But, as remarks the truth in the
+                matter, so is it our concern to harmonize our mind with that of reality, as to be fully part of it, and flow. This is
+                truly the concern of our lives. And by the tenants of language and behaviour, and the mere attempt to solve a riddle or
+                problem, so are these elements of sufficeincy but more complex issues; and at that, pitched on the basis of thngs, or
+                truths which our sufficinecy can apply from. As the former remarks a principle, of man at least; while the latter,
+                garners a structure which such prniciples can enliven. And per our discourse, so does the layout of this all require a
+                sensibility to one, and an understanding of the latter.
+                 The strict basics are not in this case important, for their belief in continuity is but a fair and accepted status of
+                things, by which our detailed regards can particularly apply.
+                 But as remarks sufficeincy, our understanding is sweltered by our own experience and its ambigious care for real
+                living; to which proficeincy, or further provisional effort, is not so clearly staked upon. In other words, one side
+                sees more which can be earned, to which provision becomes a higher concner; while the measure of living, and its more or
+                less disregard for provision, makes sufficeincy truly so, and frugal at that.
+            </div>
+            <input type="checkbox" class="bookmark-check" title="Set Bookmark">
+            <button class="edit-btn" title="Edit">✎</button>
+        </div>
+    </div>
+    <div id="content">
+        <!-- Example text piece -->
+        <div class="text-piece" data-id="piece3">
+            <div class="title-display"></div>
+            <div class="text-body">
+                much is really of need beyond nourishment and shelter. Everything else is more or less uncommon, or accessible through
+                the environemt as it stands. At least in terms of safety, the bulk of it is not so insurable by money, but your civil
+                fortune. And when it comes to specifics, they fairly build ontop of this principled model, and not the other way around.
+                For in this sense, we assume the notion of liberty, and the complexion of our response being but of a more postivie and
+                generous kind (coompared to the baser ones of retreat and or removal).
+                 And the point, is that if someone is at peace, then they will be more open; naturally by their calmness, and to things
+                which are by this state seen. Such sights are considered liberal goods, as they come from secure living. In contrast to
+                this is passion, which is a sort of drag, or that of relief, whereby work is softened through impurity. There is also a
+                sort of discipline which one embraces if their view of sufficeincy is farther off; or, if for whatever reason,
+                proficeincy is more needily sought, for luxury and novel occasion.
+                 Beyond this dynamic though, lies the possible contrition as to whether someone is being nieve or ignorant in their
+                peacefull state. Are they forgetting something? Is their steadyiness likely to be vain, or evidently futile? This is
+                odd, for if it was not, then the principal needs were met.
+                 I can say, that principle is based on primacy, in that, deeper truths hold core relations to shallower ones. These can
+                be added surely; but in doing, become somewhat ingrained to the principal. For instance, our needs as a man is for food
+                and shelter, and equally for a partner. By all accounts, the need of another person would simply add 50% from our total
+                needs into this three person account. In terms of sufficency, if one person is to be fully provided for, then the extent
+                of our suffieincy must incorporate that amount. Duly, if my portion satisifes me, and my partner their own, then the
+                extra whole which we must account for can be fairly met by increasing each of our sufficeincys by 50%: from 1+1 to
+                1.5+1.5. By this statement, the specifics may vary for either of the members and that of our obligate. I may need less,
+                .9 per say, while my partner may inherently require 1.4, and our child 1.7. As partners, we would need a total of 2.3,
+                totalling 4 with the child. By that, our average contribution to the whole would be 2; and the increase from your own
+                accordingly varies.
+                 What must be recalled though, is that however these accounts are determined, they are, ideally, done so primarily with
+                sufficeincy in mind. At least with the aim to establish such point. From there, proficeincy can be garnered, and
+                determined. For we may be fine at 2.3, but require an extra .2 for a car. Or if our aim is to invest in home, then our
+                portions each go up, and so forth. Again, right and wrong determine the neccessity of the specifics; while the
+                accounting for such terms curries us a sufficeint threshold, and that of proficiency.
+                 Values seem a unclear addition to this, as with all clarity, they would more than likely be a sort of need. Namely,
+                education is a primary facet of children's lives. But what if the proces, common at least, is overly formal, slow, drawn
+                out, flat in industry, uninspired, dissociated from decency and self regard, what then? Better yet, to add to that last
+                point, what if the matters of character, grieving, strenght and purity, are beyond past traditions, and such matters are
+                but abscent; as the past routes are no longer prevalent, and reasonably so, while this account of education does not
+                include these things. Together, a lack of what religious gathering and service once gave, paired with the excess of
+                wooden futility in schools, makes for a unappealing scenario. As it is by my accounts a diservice to withold a childs
+                association with others; just as it would be not to give them a direction, command, insight and station for fitness,
+                speaking, reading and arithmatic. In our time there is something called 'montessori', which gives more control to the
+                student in what they wish to learn; though the details remain a blurr, as I am not sure what teaching is done.
+                 And beyond that, as we've said, right and wrong may bear qualities and a suitable direction as regards the course and
+                placement of the child; and at that, options of education, in that they are the prevalent occupation of the childs early
+                times, become judged against such regards.
+            </div>
+            <input type="checkbox" class="bookmark-check" title="Set Bookmark">
+            <button class="edit-btn" title="Edit">✎</button>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="modal">
+        <label>Title: <input type="text" id="modal-title"></label><br><br>
+        <label>Category:
+            <select id="modal-category">
+                <option value="Philo">Philo</option>
+                <option value="World">World</option>
+                <option value="Reflection">Reflection</option>
+                <option value="joy">Joy</option>
+            </select>
+        </label><br><br>
+        <button id="save-meta">Save</button>
+        <button id="cancel-meta">Cancel</button>
+    </div>
+
+    <script>
+        $(function () {
+            const savedBg = localStorage.getItem("bgColor");
+            if (savedBg) $("body").css("background-color", savedBg);
+
+            const scrollY = localStorage.getItem("scrollY");
+            if (scrollY) $(window).scrollTop(scrollY);
+
+            const bookmarkedId = localStorage.getItem("bookmarkId");
+
+            $(".text-piece").each(function () {
+                const id = $(this).data("id");
+                const title = localStorage.getItem(id + "_title");
+                const cat = localStorage.getItem(id + "_cat");
+                if (title) $(this).find(".title-display").text(title);
+                if (cat) $(this).attr("data-category", cat);
+
+                if (id === bookmarkedId) {
+                    $(this).find(".bookmark-check").prop("checked", true);
+                }
+            });
+
+            $(".color-picker button[data-color]").click(function () {
+                const color = $(this).data("color");
+                $("body").css("background-color", color);
+                localStorage.setItem("bgColor", color);
+            });
+
+            $(".category-bar button").click(function () {
+                const filter = $(this).data("filter");
+                if (filter === "all") {
+                    $(".text-piece").show();
+                } else {
+                    $(".text-piece").hide();
+                    $(`.text-piece[data-category='${filter}']`).show();
+                }
+            });
+
+            let currentPiece = null;
+            $(".edit-btn").click(function () {
+                currentPiece = $(this).closest(".text-piece");
+                const id = currentPiece.data("id");
+                const title = localStorage.getItem(id + "_title") || "";
+                const cat = localStorage.getItem(id + "_cat") || "Philo";
+                $("#modal-title").val(title);
+                $("#modal-category").val(cat);
+                $(".overlay, .modal").show();
+            });
+
+            $("#cancel-meta").click(function () {
+                $(".overlay, .modal").hide();
+            });
+
+            $("#save-meta").click(function () {
+                const title = $("#modal-title").val();
+                const cat = $("#modal-category").val();
+                const id = currentPiece.data("id");
+                currentPiece.find(".title-display").text(title);
+                currentPiece.attr("data-category", cat);
+                localStorage.setItem(id + "_title", title);
+                localStorage.setItem(id + "_cat", cat);
+                $(".overlay, .modal").hide();
+            });
+
+            $(".bookmark-check").change(function () {
+                if (this.checked) {
+                    $(".bookmark-check").not(this).prop("checked", false);
+                    const id = $(this).closest(".text-piece").data("id");
+                    localStorage.setItem("bookmarkId", id);
+                } else {
+                    localStorage.removeItem("bookmarkId");
+                }
+            });
+
+            $(".bookmark-jump").click(function () {
+                const id = localStorage.getItem("bookmarkId");
+                if (id) {
+                    const target = $(".text-piece[data-id='" + id + "']");
+                    if (target.length) {
+                        $('html, body').animate({ scrollTop: target.offset().top }, 500);
+                    }
+                }
+            });
+
+            $(window).on("beforeunload", function () {
+                localStorage.setItem("scrollY", window.scrollY);
+            });
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(() => console.log("Service Worker Registered"))
+                .catch((err) => console.error("Service Worker Failed", err));
+        }
+    </script>
+      
+
+</body>
+
+</html>
