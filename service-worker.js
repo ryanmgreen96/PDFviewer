@@ -1,35 +1,50 @@
-const CACHE_NAME = 'organizer-cache-v1';
-const FILES_TO_CACHE = [
-  '/',
-  '/PDFviewer/index.html',
-  '/PDFviewer/manifest.json',
-  '/PDFviewer/service-worker.js'
+const CACHE_NAME = "pdfviewer-cache-v1";
+const urlsToCache = [
+  "/PDFviewer/",
+  "/PDFviewer/index.html",
+  "/PDFviewer/manifest.json",
+  "/PDFviewer/service-worker.js",
+  "/PDFviewer/icon.png",         // Make sure this matches your icon name
+  "/PDFviewer/jquery.js",        // Include offline jQuery copy
+  // Add other local files like:
+  // "/PDFviewer/style.css",
+  // "/PDFviewer/app.js",
 ];
 
-self.addEventListener('install', (evt) => {
-  evt.waitUntil(
+self.addEventListener("install", (event) => {
+  event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
+      return cache.addAll(urlsToCache);
     })
   );
-  self.skipWaiting();
 });
 
-self.addEventListener('activate', (evt) => {
-  evt.waitUntil(
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
     caches.keys().then((keyList) =>
-      Promise.all(keyList.map((key) => {
-        if (key !== CACHE_NAME) return caches.delete(key);
-      }))
+      Promise.all(
+        keyList.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
     )
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', (evt) => {
-  evt.respondWith(
-    caches.match(evt.request).then((response) =>
-      response || fetch(evt.request)
-    )
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return (
+        response ||
+        fetch(event.request).catch(() => {
+          // fallback if offline
+          if (event.request.mode === "navigate") {
+            return caches.match("/PDFviewer/index.html");
+          }
+        })
+      );
+    })
   );
 });
