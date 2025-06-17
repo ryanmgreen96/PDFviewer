@@ -13,46 +13,46 @@
             margin: 0;
             padding: 20px;
             background-color: white;
-            text-align: center;
+            color: hsl(38, 72%, 75%);
+            font-size: 1.4em;
+            /* light yellowish gold */
         }
 
-        .color-picker button,
-        .bookmark-jump {
+        .color-picker,
+        .category-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .color-picker button {
             width: 30px;
             height: 30px;
             margin: 5px;
+            border: 1px solid #999;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
         .category-bar button {
             margin: 5px;
             padding: 5px 10px;
+            cursor: pointer;
         }
 
         .text-piece {
-            border: 1px solid #ccc;
-            margin: 20px auto;
-            padding: 10px;
-            max-width: 600px;
-            font-size: 133%;
-            text-align: left;
+            margin: 10px auto;
+  padding: 10px;
+  max-width: 600px;
+  background-color: transparent; /* changed from a solid color */
+  border: none; /* removed border */
         }
 
         .title-display {
             font-style: italic;
-            font-size: 0.9em;
-        }
-
-        .edit-btn {
-            width: 20px;
-            height: 20px;
-            font-size: 0;
-            background-color: #ddd;
-            border: 1px solid #999;
-            margin-left: 5px;
-        }
-
-        .bookmark-check {
-            margin-left: 5px;
+            font-size: 1em;
+            padding: 5px;
+            color:#fff
         }
 
         .modal {
@@ -61,11 +61,18 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+          
             padding: 20px;
             box-shadow: 0 0 10px #000;
             z-index: 1001;
+            max-width: 90%;
+            background: #800000; /* dark red */
+            color: #fff;  
+            min-width: 200px;
+  width: 400px; /* or whatever standard width you prefer */
+  resize: both;
         }
+      
 
         .overlay {
             display: none;
@@ -77,157 +84,292 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
+
+        .edit-btn {
+            width: 20px;
+            height: 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .bookmark-box {
+            margin-left: 10px;
+        }
+
+        textarea#modal-title {
+            width: 100%;
+            height: 80px;
+            padding: 5px;
+        }
+        select#modal-category {
+  border: 2px solid #fff;
+  background-color: #600000;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.filter-btn.active {
+  background-color: #800000;
+  color: white;
+}
+
     </style>
 </head>
 
 <body>
 
     <div class="color-picker">
-        <button data-color="white" style="background:white;"></button>
-        <button data-color="lightyellow" style="background:lightyellow;"></button>
-        <button data-color="lightblue" style="background:lightblue;"></button>
-        <button data-color="lightgray" style="background:lightgray;"></button>
-        <button class="bookmark-jump" title="Go to Bookmark">🔖</button>
+        <button data-color="#a95050" style="background:#a95050;"></button>
+        <button data-color="#3a7f2c" style="background:#3a7f2c;"></button>
+        <button data-color="#3e7c91" style="background:#3e7c91;"></button>
+        <button data-color="#79599c" style="background:#79599c;"></button>
     </div>
 
     <div class="category-bar">
-        <button data-filter="all">All</button>
-        <button data-filter="Philo">Philo</button>
-        <button data-filter="World">World</button>
-        <button data-filter="Reflection">Reflection</button>
-        <button data-filter="joy">Joy</button>
+        <button class="filter-btn" data-filter="Philo">Philo</button>
+        <button class="filter-btn" data-filter="World">World</button>
+        <button class="filter-btn" data-filter="Reflection">Reflection</button>
+        <button class="filter-btn" data-filter="joy">Joy</button>
+        <button id="filter-clear">Clear Filters</button>
     </div>
-
+    <div class="bookmark-bar" style="text-align: center; margin-bottom: 10px;">
+        <button id="show-bookmarked" style="font-size: 0.4em;">🔖  </button>
+    </div>
+      
     <div id="content">
-        <!-- Example text piece -->
         <div class="text-piece" data-id="piece1">
             <div class="title-display"></div>
-            <div class="text-body">
-               is standard, as much as the scenario is expected, that for my children we wish well. But what this means is quite
-                different depending on your concerns for them. And at any rate, rather than divulge what you'd want, we may simply speak
-                to the two distinct approaches which one may take to preparing for and managing their childs life.
-                <br>&emsp;
-                 One, is to do with fortune, such as a home, a nest egg etc., while the other is of proficiency, or the promience of
-                one's ability to be sufficeint in their life. This latter is such, as to call on all people to meet their needs through
-                effort and duty, with proficiency being an extension of that. For one may be a minimum wage worker, and feed themselves
-                doing that; or they may be a plumber, or harness some other form of craft, to earn more -and through a more elegant and
-                flavorfull occupation at that. This compares with fortune, in that its goal is to provide freedom from effort; as one's
-                interest in investing into a home, or a fund, is so that it becomes an asset which pays you later on.
-                 But in regards to our cares for a child, it equates to what I, in my highest dreams would seek. And that this would
-                simply be the best of living: which our time is the soul factor, and limited by our employment of it: and this holds
-                little cares for all but sufficient funds. And at that, if we simply say that our aim is to spend our time well, then we
-                see, that despite the freeom fortunes afford, that their accumulation and preservation is done so through much ardor and
-                committment. Consequently, two drawbacks occur, namely the allocation of our time during the investing period, in both
-                the dedication to contributing (to your investment) and, in the case of a home, the riggidness that such an asset
-                brings; and secondly, upon the actual taste of the invesment all that time later on, that of the actual benefit it
-                offered, in the open lane for good living, that such goodness within living, in terms of one's aptitude and their
-                interest, had not yet been cultivated. And indeed, being ignorant of this is an error along all paths; but, in the case
-                of nurturing our fortune, so do its committments keep our culvitaion within the actual needs and love of living at a
-                compramised level.
-                 In that sense, our care for our children is present so much as we have a sight on such a situation; and I would say,
-                with an even head and tempered heart, that our interest in reaching such a scenario is complimentary, if not, at its
-                core, entirely derired from our more evident pleasures of friends and family, people in general. And at that we can say,
-                as a preface, that the wish for chidlren, or sight of them forthcoming, is likely due to its natural extension of our
-                already human interest. There is no genuine need for it, but our hearts tend to want otherwise; and, with some
-                relfection, it is fair to consider the composure of our selves and mind, and how any uneveness there may bend our
-                interests to something besides children; or, as it is sometimes known (or depicted), that such idea of children, coming
-                into us by the lens of our true selves, may be overly glarring and undesirable. But that is for such person to decide:
-                while we note their reasons otherwise.
-            </div>
-            <input type="checkbox" class="bookmark-check" title="Set Bookmark">
-            <button class="edit-btn" title="Edit">✎</button>
+            <div class="text-body">So I question whether our view of things is as solid as we believe. For one, we are not
+                in the scenarios which appear to us on tv. Nor does it truly represent what it is like to be there. Indeed,
+                we can imagine what it is like, but therein lies the issue. Whereas reading impresses you calmy and fully, I
+                find that visual inputs are saturating, and blend little with what I already know, with any conserved
+                proportions. And indeed, my deepest aversion to such mediums is how they distort my sizeable view of the
+                world, and instead mix it all up, to where it feels chaotic and small. "As if those suffering were right
+                over there; or threats upon me, were right at my door." This runs against the scope of the world. And
+                indeed, despite the loose depiction which we get; or at the very least a simplified view, as if we take for
+                granted that everything visual encapsulates all the many happenings around, so are we left far abroad,
+                likely fortunate, be it of the country were in, or our particlar home. And from there, it seems that we are
+                not but interested, in awe, and perhaps gripped by the narrative of it all: in how bad some have it, and how
+                bad some produce. This is but a glancing contribution though; and I would say, that it is not those so keen
+                to watch from abroad which hold the key to aid, but those in the communities near the incident. This is a
+                deep mark against visual formatts, for they glimmer so brightly at us, that we sometimes forget that what
+                their showing us is a world away; and that many governments and peoples lie between us and that. Is our
+                passive interest during the 6:00 news really helping? I would say, that there are ways to help. But these
+                seem almost eclusivley relevant to direct action, rather than our mere emotional invovlement. Of that I am
+                unsure, for none of it seems to center around anything other than education. There may be other avenues, but
+                they seem centered on spreading senitment; which, albeit suspect for shallow grounds, still appeals to the
+                heart of the matter, and in an outstanding way. There is surely room for both. If your not doing that
+                though, then I don't feel like your earning anything more than a coloring of your worldview, and by that, a
+                tipped balance of your own life and propserity. By all accounts, a view of the world which holds history and
+                breadth in regard, is not likely drawn to matters of those entire continents away. Our actions are quite
+                unoticible to those a province over; or a town even. I scorn not at those who shout with sentiment, or try
+                and educate those about the matter. But those recieving ought do so with propiety, 'as not to be moulded by
+                headlines and glamour'. Were looking for education, not wonder.
+                <br>&emsp;I guess my point, is that if your not going to produce anything meaningfull, then why feed off of
+                those who do so, but in a way that is unfitting for a truly deep and enrichened view? Learning is of
+                interest beyond conquest; but of that, your liberty lies. And why, in all your freedom, to be merely keen,
+                would you settle? Personally, I see the visual format as more accessible, and the programming nature to be
+                excitable. "I am so frustrated though, because I angle my interests differently, towards an end which
+                actually treats my care to know things, not what is merely appealing. Such things, as I've found, are akin
+                to fast-food, in that they are filling, but not in a wholesome or abundant way."
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
-        <!-- Example text piece -->
         <div class="text-piece" data-id="piece2">
             <div class="title-display"></div>
             <div class="text-body">
-                Right and wrong seem an awkward thing; for the basis of things can never be sure enough, as to offer a platform for such
-                <br>&emsp;
-                truths to sprout from.
-                 Yet, as a man, of humanity, and a member in associtation, I see how we are in the ways relevant to our portion of that
-                basis; at least the part of it which has sprouted into our neck of the woods.
-                 By that, I can speak only to what is sufficient, and what proficeincy would treat. But, as remarks the truth in the
-                matter, so is it our concern to harmonize our mind with that of reality, as to be fully part of it, and flow. This is
-                truly the concern of our lives. And by the tenants of language and behaviour, and the mere attempt to solve a riddle or
-                problem, so are these elements of sufficeincy but more complex issues; and at that, pitched on the basis of thngs, or
-                truths which our sufficinecy can apply from. As the former remarks a principle, of man at least; while the latter,
-                garners a structure which such prniciples can enliven. And per our discourse, so does the layout of this all require a
-                sensibility to one, and an understanding of the latter.
-                 The strict basics are not in this case important, for their belief in continuity is but a fair and accepted status of
-                things, by which our detailed regards can particularly apply.
-                 But as remarks sufficeincy, our understanding is sweltered by our own experience and its ambigious care for real
-                living; to which proficeincy, or further provisional effort, is not so clearly staked upon. In other words, one side
-                sees more which can be earned, to which provision becomes a higher concner; while the measure of living, and its more or
-                less disregard for provision, makes sufficeincy truly so, and frugal at that.
-            </div>
-            <input type="checkbox" class="bookmark-check" title="Set Bookmark">
-            <button class="edit-btn" title="Edit">✎</button>
+                So mom and dad, and surely Jess, are not out to get you. They demand very little of you. But they indeed, do
+                not hunour, or at least aid, our natural happiness; nor the form it takes.
+                <br>&emsp;We are unsure of things, necessarily, but via circumstance too. We do not know about work, about
+                living here, what our harmony with that means for the future. And life's mystery avails us here too.
+                Generally, this centers on the chimeras of violence and revolt, but also our positive decree, of uniformity
+                and fecundity. We know not where this road goes, nor if the bumps were filling are from the ground or uneven
+                shoes.
+                <br>&emsp;I feel like a stranger in my own home. No one has the faintest idea of what cheer and flourishing
+                great activity brings; and how nutered this is from poor choices; or a lack of good ones. Their surprise and
+                sketicism is not appreciated. As if anything they did was understood on some basic level, besides a norm;
+                yet, I am only ever asked the most unfamiliar question, 'as if eating Broccoli or working out was a good
+                thing....like how?'.
+                <br>&emsp;Those shoes of ours show themselves, almost clearly when under pressure, how unset they are, and
+                the road, whihc, from our sight and prior view, is not so bumpy in character. Yet, it is rough, and
+                demanding of attention; and apt to bring wear and control: as all pursuits and itineraries do. Our
+                uncertainty of which part of the path we'll take,and the evdient preview of this, to which our feet have not
+                hit earth and steadied forth, explains our current wear.
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
-        <!-- Example text piece -->
         <div class="text-piece" data-id="piece3">
             <div class="title-display"></div>
             <div class="text-body">
-                much is really of need beyond nourishment and shelter. Everything else is more or less uncommon, or accessible through
-                the environemt as it stands. At least in terms of safety, the bulk of it is not so insurable by money, but your civil
-                fortune. And when it comes to specifics, they fairly build ontop of this principled model, and not the other way around.
-                For in this sense, we assume the notion of liberty, and the complexion of our response being but of a more postivie and
-                generous kind (coompared to the baser ones of retreat and or removal).
-                 And the point, is that if someone is at peace, then they will be more open; naturally by their calmness, and to things
-                which are by this state seen. Such sights are considered liberal goods, as they come from secure living. In contrast to
-                this is passion, which is a sort of drag, or that of relief, whereby work is softened through impurity. There is also a
-                sort of discipline which one embraces if their view of sufficeincy is farther off; or, if for whatever reason,
-                proficeincy is more needily sought, for luxury and novel occasion.
-                 Beyond this dynamic though, lies the possible contrition as to whether someone is being nieve or ignorant in their
-                peacefull state. Are they forgetting something? Is their steadyiness likely to be vain, or evidently futile? This is
-                odd, for if it was not, then the principal needs were met.
-                 I can say, that principle is based on primacy, in that, deeper truths hold core relations to shallower ones. These can
-                be added surely; but in doing, become somewhat ingrained to the principal. For instance, our needs as a man is for food
-                and shelter, and equally for a partner. By all accounts, the need of another person would simply add 50% from our total
-                needs into this three person account. In terms of sufficency, if one person is to be fully provided for, then the extent
-                of our suffieincy must incorporate that amount. Duly, if my portion satisifes me, and my partner their own, then the
-                extra whole which we must account for can be fairly met by increasing each of our sufficeincys by 50%: from 1+1 to
-                1.5+1.5. By this statement, the specifics may vary for either of the members and that of our obligate. I may need less,
-                .9 per say, while my partner may inherently require 1.4, and our child 1.7. As partners, we would need a total of 2.3,
-                totalling 4 with the child. By that, our average contribution to the whole would be 2; and the increase from your own
-                accordingly varies.
-                 What must be recalled though, is that however these accounts are determined, they are, ideally, done so primarily with
-                sufficeincy in mind. At least with the aim to establish such point. From there, proficeincy can be garnered, and
-                determined. For we may be fine at 2.3, but require an extra .2 for a car. Or if our aim is to invest in home, then our
-                portions each go up, and so forth. Again, right and wrong determine the neccessity of the specifics; while the
-                accounting for such terms curries us a sufficeint threshold, and that of proficiency.
-                 Values seem a unclear addition to this, as with all clarity, they would more than likely be a sort of need. Namely,
-                education is a primary facet of children's lives. But what if the proces, common at least, is overly formal, slow, drawn
-                out, flat in industry, uninspired, dissociated from decency and self regard, what then? Better yet, to add to that last
-                point, what if the matters of character, grieving, strenght and purity, are beyond past traditions, and such matters are
-                but abscent; as the past routes are no longer prevalent, and reasonably so, while this account of education does not
-                include these things. Together, a lack of what religious gathering and service once gave, paired with the excess of
-                wooden futility in schools, makes for a unappealing scenario. As it is by my accounts a diservice to withold a childs
-                association with others; just as it would be not to give them a direction, command, insight and station for fitness,
-                speaking, reading and arithmatic. In our time there is something called 'montessori', which gives more control to the
-                student in what they wish to learn; though the details remain a blurr, as I am not sure what teaching is done.
-                 And beyond that, as we've said, right and wrong may bear qualities and a suitable direction as regards the course and
-                placement of the child; and at that, options of education, in that they are the prevalent occupation of the childs early
-                times, become judged against such regards.
-            </div>
-            <input type="checkbox" class="bookmark-check" title="Set Bookmark">
-            <button class="edit-btn" title="Edit">✎</button>
+                The matter of positive and negative regard defines our life. For whichever reason, we are left somewhat
+                elated, at the postive prospect of being at home, freely employed and rightly so, and thereby with our
+                family, propped for the sun and her darling scene; nor the lackings of food, equipment and fun. We can live
+                here, just as we may live elsewhere.
+                <br>&emsp;The negativity though comes from some sort of reason; as if something is pressuring you, an
+                ailment as it were. And indeed, much of our strife comes from the frustration that others dimiss said
+                issues. Though, it is perhaps we who are ill-sighted, and have far too long been in such a decrepid state.
+                Indeed, life fits is with such trauma, and naturally, so are we but responding to the ticks and tacks gotten
+                along the way. This is for us to enlighten our soul though: for upon near reflection, we are not in fact so
+                drug, but rather set to be, merrily, proper, and good as so.
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
+    <div id="content">
+        <div class="text-piece" data-id="piece4">
+            <div class="title-display"></div>
+            <div class="text-body">
+                So, prior to leaving Kamloops, we were in a solid routine, generally. We were exercising, not eating sugar,
+                our sleep was well. Comapred to now, we were not running, nor doing much recovery. Our workouots were not
+                too consistent, though we were fairly constant in our free range.
+                <br>&emsp;As we've moved though, and aided Jessica in here move, we've lost a great deal of momentum. To the
+                point, where our workouts are either absent, or done forecfully, to a fairly negative degree. The perril is
+                in our hips, in that we sit too narrow while trying to be upright, and this causes a lordosis in our mid
+                back; to which our shoulders come together, but in a shrug. This is killing our neck. Normally it does not,
+                but we have no fair means to do pushups, or squats even; and so we beckon at the effect of not working out,
+                or push through that poor posture.
+                <br>&emsp;In principle, we should do what is right for now. Despite recognizing our lack, we still are best
+                to do things well. I think, foremost, we could diversify our stable motions. This does not mean we'd
+                practice, but akin to a forward fold, simply do more movements in a common way. Low lunge side twist plus
+                quad stretch has been a great advent of this. There is room to do more volume when it comes to lifts, and
+                perhaps warrior, but when it comes to leg raise, bridge, squating, ought we do it as if it were some
+                indispenisible stretch. Include it with a forward fold, or arm raise, and you'll be more open through the
+                day. For now, we ought return to our strenght, and let the running we've done sink in, all while the retain
+                our mould through stability, and our common poses.
+                <br>&emsp;Food wise were best to eat a fair amount. It is required that you wake up early. No more waking up
+                past 9. If your alarm isn't working, get a new one. It derails us to wake up so late. Our veggies, orange,
+                dried fruit and milk are perfect for the first half of our day. Indeed, I am not so clear or directed as to
+                what our evening should be, or where and how it should be transitioned too. It is indeed a result of our
+                ineptitude as regards money. For we might be best to get corn, edamame, tuna, and otherwise lean on quinoa,
+                as opposed to potatoes, rice and bread. These are not always welcomed. I would not forget, that much of your
+                weightloss comes from not eating enough, rather than eating fully, but to ineffective degree.
+                <br>&emsp;We need seeds, oranges, soft bread, quinoa and milk, along with dried fruit.
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+        </div>
+    </div>
+    <div id="content">
+        <div class="text-piece" data-id="piece5">
+            <div class="title-display"></div>
+            <div class="text-body">
+                The reality of my life is that little is required. Even this anxious pretense of children is not ripe for
+                trouble, as frugal living levels out all needs.
+                <br>&emsp;My querry though is along the lines of positivity, and what this is afforded by. For I do see that
+                stability is needed, so that we may live and rest securely. But in that, is there any quality which one
+                place is damned to lack? I do see varied complexions and nodes of interaction, but all in all, each place is
+                the same. We work, live, rest, and around that, invest, learn, connect and grow. If we can do this well in
+                one home, we can in another. And even if certain grooves are found only in certain spots, so does this not
+                change the steadyness of our hand: or the rocky bounds that each spot holds.
+                <br>&emsp;By that, I am remissed to say that more work may be required, if only because any on offer demands
+                at least that much. This is a nice predicament; as we may verily be in a compramised spot, where ease is
+                found through shortcuts. In any case, I do expect that our demands will lighten, in volume surely. In
+                quality, so may the times not prevail. But so is there promise around.
+                <br>&emsp;Where I struggle is in coming up with reaons to be, as if we would be free. For I do not imagine
+                that our baser conditions will detach. Though, I can't say there's any grievence about this, as little of
+                what I'd consider natrually required is either contrary or run down by our demands. It is moreso about the
+                ration of work and living: and seeing that of what I might expect, that theres more of the former than I'd
+                prefer, or desire.
+                <br>&emsp;It just seems like the color of the morn, the grazing of literature and the world, or the mere
+                cheer of gaming and fun, is enough for me to at least be ordinarly, but in a flourishing manner. Of our
+                broader purpose and place, I cannot say. But these things are not at heart to do with horiztonal growth,
+                towards presumed goods abound. We are still left with the balance of work and living. Our intent though, or
+                meaning, may not come about but through our pleasant pace and peace, to which I am happy to find.
+                <br>&emsp;It's just not very clear what to do. For the past and her wares has me somewhat beholden,'like mud
+                on my shirt', to the sentiments and or edges of our time. This is holding less interest in me, nor much
+                reason upon reflection. For instance, the difference of location is not so special, for all places are
+                almost equally esteemed in the good they offer. "Ten pounds of chocolate or vanilla still makes for a heap
+                of ice-cream." Furthermore, the time of year is holding less of that bookended chain. For the winters hold a
+                bare complexion, but vibrance too. Nor is the fresh air something to be averse to. Moreover, there is not
+                much thought in me that says, 'we only mean to be somewhere for a short while, so we must go where we wish
+                within a certain time, otherwise we'll miss the sweetspot of it'. This simply isn't so. There's no need to
+                be anywhere but where you are: where time has brought you, and for all things good, you have formed yourself
+                to be. Change may occur, but frett not. Our time allows for all, nor ought we remark much but the good we
+                see: rather than the wish for more. And at any rate, the reality of all future concern, is to do with things
+                of a broader sort. And indeed, I may only see a hill of riches infront; and by our admittedly uneven
+                grounds, may not see much further. But life will have moved on and caught up upon reaching said point: to
+                where our measure of good is more, and beyond. And as we said, in terms of things far and about, so will
+                this come into clarity and interest by our flourishing way. "And that is about the best one could hope for."
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+        </div>
+    </div>
+    <div id="content">
+        <div class="text-piece" data-id="piece6">
+            <div class="title-display"></div>
+            <div class="text-body">
+                So when you work, you sacrifice your living. For if we did not have to work, the sun would at least draw us.
+                Indeed, this proposition is perhaps flawed, as the requisite that we eat and sleep assigns us a neccessary
+                mean to achieve such. So we'd properly say, that given food and a place to rest, so would we not have to
+                work. We may lack the common means for fun, but so may we gaze at the world and delight.
+                <br>&emsp;The point being that, for the fact that such things are provided, and the good which we'd recieve
+                if they were, means that something is given up for the sake of said provision. And indeed this seems the
+                fashion the course for employment; in that, the work required is not so much a negative, but rather an
+                intrusion to positivity. "For indeed, the actual return of such work comes into qeustion: for if I got twice
+                as much, I would at least have more good to purchase. While those who earn little, have little but their
+                needs met, and not much more: making the obligation a chore, rather than a happy mean."
+                <br>&emsp;Conversenly, to state the terms, being given such provision removes your ability to see ahead, or
+                be so free in your strides. For dependance holds no sure end, even if it were a dreaded one. Nor, in the
+                case of family, where judgement is given, is rest easy to achieve: for you are not saxrifcing anything, and
+                thus deserving of a break. But as such, as the worth of dependance is in the abscence of work, that so are
+                you not happy without using your free time for such. Indeed, this is not hard to do, despite the insecurity
+                of how long you may do so. But sustaining this is hard when rest is hard to sink into: as your free time is
+                not esteemed as work, despite the effort invovled. Balance is thus hard to achieve, consistently -without
+                ware.
+                <br>&emsp;In this way, I see that our life is full of positivity, and the minor amount of worked required to
+                be stable, will not cause much interference. In fact, despite the volume of our time being spent on said
+                work, there is the benefit from the actual work, in that it is not as concentrated as your creative efforts.
+                Plus, it is usually around other people. Beyond the balance of exchange, there still lies the preferred lock
+                on your contuinuity. For it is better to earn a bit less, but increase your stock, then to have alot, but
+                whither it away. "For the end is one of loss." As it were, the benefit here is one that magnifies all other
+                goods; and over time, leverages itself into fuller forms, as to increase the magnitude of our living.
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+        </div>
+    </div>
+    <div id="content">
+        <div class="text-piece" data-id="piece7">
+            <div class="title-display"></div>
+            <div class="text-body">
+                So I'm thinking that if were going to stay here, that we work at Superstore. It is close, and this melds
+                with an unbridled view of being here. There's no room for pretense. We may consider our future, as regards
+                buisness, contribution or rearing. But so is this in need of clarity, and as such, living well produces
+                thus. So we need not be anywhere particular for said times to come in line. Besides that, we are merely
+                swell and pure: and this need not bank on any one localle: and can grow and adapt as well in all spots,
+                present or to come.
+                <br>&emsp;In that way, I see a similar prospect in East or West walmart. I feel there is more room to
+                negotiate, and so surely, we can achieve that marbled 2 day per week routine. Perhaps, an arrangment of
+                shorter shifts.
+                <br>&emsp;Let's say though that none of the three are hiring. We may choose to leave, be asked to, or stay
+                for the nearer prospects ahead, or something freerer and indefinite.
+                <br>&emsp;What I would proclaim, is that living unstabiliy holds a blurred view of the future; as you cannot
+                remark upon it with clear desire or ability. As such, you settle into the gradual paces of your day, or
+                idealize some broader end --as to carry you out. The struggle in this, is that living so gradually wobbles
+                at the intolerance of doing so; and so rest becomes a parched resource: as you may live fully and truly, as
+                you are both composed and definite in your striding state: but so upon the need for rest, do you crumble and
+                despair: yielding an all to common ware.
+                <br>&emsp;Compared to this, the benefit of work, or stability rather, is that you are secure in your means
+                and your further direction. This brings with it the balance of labor and liberty: but so does such things
+                have their own principle measures. At any rate, the advantage of being so set, is not itself a divine
+                privalage, or one of scorching neccessity. It is perhaps right, but not exlusivley. Our gradual ways, which
+                is to say those which are less ideal or worn, but more ripe and solid instead, do produce such future
+                remarks. Indeed, they are not hoistered by the sentiments which stability brings, and therefore lack as much
+                focus or actionable regard: but they do linger between the bounds of this, and by that, hold much concerns
+                for farther ideals, and those comparable but of a nearer sort.
+            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+      
+    
+
+  
 
     <div class="overlay"></div>
     <div class="modal">
-        <label>Title: <input type="text" id="modal-title"></label><br><br>
-        <label>Category:
-            <select id="modal-category">
-                <option value="Philo">Philo</option>
-                <option value="World">World</option>
-                <option value="Reflection">Reflection</option>
-                <option value="joy">Joy</option>
-            </select>
+        <label>Notes:<br>
+            <textarea id="modal-title"></textarea>
+        </label><br><br>
+        <label>Category:<br>
+            <div id="modal-category">
+                <label><input type="checkbox" value="Philo"> Philo</label><br>
+                <label><input type="checkbox" value="World"> World</label><br>
+                <label><input type="checkbox" value="Reflection"> Reflection</label><br>
+                <label><input type="checkbox" value="joy"> Joy</label>        </div>
         </label><br><br>
         <button id="save-meta">Save</button>
         <button id="cancel-meta">Cancel</button>
@@ -241,7 +383,7 @@
             const scrollY = localStorage.getItem("scrollY");
             if (scrollY) $(window).scrollTop(scrollY);
 
-            const bookmarkedId = localStorage.getItem("bookmarkId");
+            let bookmarkedId = localStorage.getItem("bookmarkId");
 
             $(".text-piece").each(function () {
                 const id = $(this).data("id");
@@ -249,74 +391,112 @@
                 const cat = localStorage.getItem(id + "_cat");
                 if (title) $(this).find(".title-display").text(title);
                 if (cat) $(this).attr("data-category", cat);
-
                 if (id === bookmarkedId) {
-                    $(this).find(".bookmark-check").prop("checked", true);
+                    $(this).find(".bookmark-box").prop("checked", true);
                 }
+
             });
 
-            $(".color-picker button[data-color]").click(function () {
+            $(".color-picker button").on("click", function () {
                 const color = $(this).data("color");
                 $("body").css("background-color", color);
                 localStorage.setItem("bgColor", color);
             });
 
-            $(".category-bar button").click(function () {
-                const filter = $(this).data("filter");
-                if (filter === "all") {
-                    $(".text-piece").show();
+            let activeFilters = [];
+
+            $(".filter-btn").on("click", function () {
+                const category = $(this).data("filter");
+
+                $(this).toggleClass("active");
+
+                if ($(this).hasClass("active")) {
+                    activeFilters.push(category);
                 } else {
-                    $(".text-piece").hide();
-                    $(`.text-piece[data-category='${filter}']`).show();
+                    activeFilters = activeFilters.filter(c => c !== category);
                 }
+
+                filterBySelectedCategories();
             });
 
+            $("#filter-clear").on("click", function () {
+                activeFilters = [];
+                $(".filter-btn").removeClass("active");
+                $(".text-piece").show();
+            });
+
+            function filterBySelectedCategories() {
+                $(".text-piece").each(function () {
+                    const pieceCategories = ($(this).attr("data-category") || "").split(",");
+                    const matchAll = activeFilters.every(c => pieceCategories.includes(c));
+                    $(this).toggle(matchAll);
+                });
+            }
+
+
             let currentPiece = null;
-            $(".edit-btn").click(function () {
+            $(document).on("click", ".edit-btn", function () {
                 currentPiece = $(this).closest(".text-piece");
                 const id = currentPiece.data("id");
                 const title = localStorage.getItem(id + "_title") || "";
-                const cat = localStorage.getItem(id + "_cat") || "Philo";
+                const cats = (localStorage.getItem(id + "_cat") || "").split(",");
                 $("#modal-title").val(title);
-                $("#modal-category").val(cat);
+                $("#modal-category input").prop("checked", false);
+                cats.forEach(c => {
+                    $("#modal-category input[value='" + c + "']").prop("checked", true);
+                });
+
                 $(".overlay, .modal").show();
             });
 
-            $("#cancel-meta").click(function () {
+            $("#cancel-meta").on("click", function () {
                 $(".overlay, .modal").hide();
             });
 
-            $("#save-meta").click(function () {
+            $("#save-meta").on("click", function () {
                 const title = $("#modal-title").val();
-                const cat = $("#modal-category").val();
+                const cats = [];
+                $("#modal-category input:checked").each(function () {
+                    cats.push($(this).val());
+                });
+                const catStr = cats.join(",");
                 const id = currentPiece.data("id");
                 currentPiece.find(".title-display").text(title);
-                currentPiece.attr("data-category", cat);
+                currentPiece.attr("data-category", catStr);
                 localStorage.setItem(id + "_title", title);
-                localStorage.setItem(id + "_cat", cat);
+                localStorage.setItem(id + "_cat", catStr);
                 $(".overlay, .modal").hide();
             });
 
-            $(".bookmark-check").change(function () {
-                if (this.checked) {
-                    $(".bookmark-check").not(this).prop("checked", false);
+            $(".bookmark-box").on("change", function () {
+                $(".bookmark-box").not(this).prop("checked", false);
+                if ($(this).is(":checked")) {
                     const id = $(this).closest(".text-piece").data("id");
                     localStorage.setItem("bookmarkId", id);
                 } else {
                     localStorage.removeItem("bookmarkId");
                 }
             });
+            let showingBookmark = false;
 
-            $(".bookmark-jump").click(function () {
-                const id = localStorage.getItem("bookmarkId");
-                if (id) {
-                    const target = $(".text-piece[data-id='" + id + "']");
-                    if (target.length) {
-                        $('html, body').animate({ scrollTop: target.offset().top }, 500);
+            $("#show-bookmarked").on("click", function () {
+                const bookmarkedId = localStorage.getItem("bookmarkId");
+                if (bookmarkedId) {
+                    const $target = $(`.text-piece[data-id='${bookmarkedId}']`);
+                    if ($target.length) {
+                        // Scroll smoothly to the bookmarked piece
+                        $('html, body').animate({
+                            scrollTop: $target.offset().top
+                        }, 500);
+
+                       
+                    } else {
+                        alert("Bookmarked piece not found on this page.");
                     }
+                } else {
+                    alert("No piece bookmarked yet.");
                 }
             });
-
             $(window).on("beforeunload", function () {
                 localStorage.setItem("scrollY", window.scrollY);
             });
@@ -329,7 +509,6 @@
                 .catch((err) => console.error("Service Worker Failed", err));
         }
     </script>
-      
 
 </body>
 
