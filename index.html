@@ -9,7 +9,7 @@
     <script src="jquery.min.js"></script>
     <style>
         body {
-            font-family: Centaur, serif;
+            font-family: 'Centaur', serif;
             margin: 0;
             padding: 20px;
             background-color: white;
@@ -17,6 +17,13 @@
             font-size: 1.4em;
             /* light yellowish gold */
         }
+        @font-face {
+  font-family: 'Centaur';
+  src: url('Centaur.woff2') format('woff2');
+      
+  font-weight: normal;
+  font-style: normal;
+}
 
         .color-picker,
         .category-bar {
@@ -41,6 +48,8 @@
         }
 
         .text-piece {
+            position: relative;
+            padding-right: 50px; 
             margin: 10px auto;
   padding: 10px;
   max-width: 600px;
@@ -49,10 +58,13 @@
         }
 
         .title-display {
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             font-style: italic;
-            font-size: 1em;
+            font-size: .7em;
             padding: 5px;
-            color:#fff
+            color:#fff;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
 
         .modal {
@@ -86,14 +98,26 @@
         }
 
         .edit-btn {
-            width: 20px;
-            height: 20px;
-            font-size: 1em;
-            cursor: pointer;
+            position: absolute;
+  right: 0px;
+  top: 50%; /* default, will be overridden by JS */
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: #a07f7f;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  padding: 5px 5px;
+  font-size: .1em;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
         }
 
         .bookmark-box {
-            margin-left: 10px;
+            position: absolute;
+  bottom: px;
+  left: 10px;
         }
 
         textarea#modal-title {
@@ -113,24 +137,39 @@
   color: white;
 }
 
+.color-picker button {
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.color-picker button#white-bg-btn {
+    color: black;
+}
+
     </style>
 </head>
 
 <body>
 
     <div class="color-picker">
-        <button data-color="#a95050" style="background:#a95050;"></button>
+        <button data-color="#8c4545" style="background:#8c4545;"></button>
         <button data-color="#3a7f2c" style="background:#3a7f2c;"></button>
         <button data-color="#3e7c91" style="background:#3e7c91;"></button>
         <button data-color="#79599c" style="background:#79599c;"></button>
+        <button id="white-bg-btn" data-color="#ffffff" style="background: white; border: 1px solid #999;">W</button>
     </div>
+    
 
     <div class="category-bar">
         <button class="filter-btn" data-filter="Philo">Philo</button>
         <button class="filter-btn" data-filter="World">World</button>
-        <button class="filter-btn" data-filter="Reflection">Reflection</button>
+        <button class="filter-btn" data-filter="Principle">Principle</button>
         <button class="filter-btn" data-filter="joy">Joy</button>
-        <button id="filter-clear">Clear Filters</button>
+        <button class="filter-btn" data-filter="Reflection">Reflection</button>
+        <button class="filter-btn" data-filter="Grub">Grub</button>
+        <button class="filter-btn" data-filter="Civ">Civ</button>
+        <button id="filter-clear"></button>
     </div>
     <div class="bookmark-bar" style="text-align: center; margin-bottom: 10px;">
         <button id="show-bookmarked" style="font-size: 0.4em;">🔖  </button>
@@ -139,40 +178,32 @@
     <div id="content">
         <div class="text-piece" data-id="piece1">
             <div class="title-display"></div>
-            <div class="text-body">So I question whether our view of things is as solid as we believe. For one, we are not
+            <div class="text-body">
+                So I question whether our view of things is as solid as we believe. For one, we are not
                 in the scenarios which appear to us on tv. Nor does it truly represent what it is like to be there. Indeed,
                 we can imagine what it is like, but therein lies the issue. Whereas reading impresses you calmy and fully, I
-                find that visual inputs are saturating, and blend little with what I already know, with any conserved
-                proportions. And indeed, my deepest aversion to such mediums is how they distort my sizeable view of the
-                world, and instead mix it all up, to where it feels chaotic and small. "As if those suffering were right
-                over there; or threats upon me, were right at my door." This runs against the scope of the world. And
-                indeed, despite the loose depiction which we get; or at the very least a simplified view, as if we take for
-                granted that everything visual encapsulates all the many happenings around, so are we left far abroad,
-                likely fortunate, be it of the country were in, or our particlar home. And from there, it seems that we are
-                not but interested, in awe, and perhaps gripped by the narrative of it all: in how bad some have it, and how
-                bad some produce. This is but a glancing contribution though; and I would say, that it is not those so keen
-                to watch from abroad which hold the key to aid, but those in the communities near the incident. This is a
-                deep mark against visual formatts, for they glimmer so brightly at us, that we sometimes forget that what
-                their showing us is a world away; and that many governments and peoples lie between us and that. Is our
-                passive interest during the 6:00 news really helping? I would say, that there are ways to help. But these
-                seem almost eclusivley relevant to direct action, rather than our mere emotional invovlement. Of that I am
-                unsure, for none of it seems to center around anything other than education. There may be other avenues, but
-                they seem centered on spreading senitment; which, albeit suspect for shallow grounds, still appeals to the
-                heart of the matter, and in an outstanding way. There is surely room for both. If your not doing that
-                though, then I don't feel like your earning anything more than a coloring of your worldview, and by that, a
-                tipped balance of your own life and propserity. By all accounts, a view of the world which holds history and
-                breadth in regard, is not likely drawn to matters of those entire continents away. Our actions are quite
-                unoticible to those a province over; or a town even. I scorn not at those who shout with sentiment, or try
-                and educate those about the matter. But those recieving ought do so with propiety, 'as not to be moulded by
-                headlines and glamour'. Were looking for education, not wonder.
-                <br>&emsp;I guess my point, is that if your not going to produce anything meaningfull, then why feed off of
-                those who do so, but in a way that is unfitting for a truly deep and enrichened view? Learning is of
-                interest beyond conquest; but of that, your liberty lies. And why, in all your freedom, to be merely keen,
-                would you settle? Personally, I see the visual format as more accessible, and the programming nature to be
-                excitable. "I am so frustrated though, because I angle my interests differently, towards an end which
-                actually treats my care to know things, not what is merely appealing. Such things, as I've found, are akin
-                to fast-food, in that they are filling, but not in a wholesome or abundant way."
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+                So mom and dad, and surely Jess, are not out to get you. They demand very little of you. But they indeed, do
+                not hunour, or at least aid, our natural happiness; nor the form it takes.
+                <br>&emsp;We are unsure of things, necessarily, but via circumstance too. We do not know about work, about
+                living here, what our harmony with that means for the future. And life's mystery avails us here too.
+                Generally, this centers on the chimeras of violence and revolt, but also our positive decree, of uniformity
+                and fecundity. We know not where this road goes, nor if the bumps were filling are from the ground or uneven
+                shoes.
+                <br>&emsp;I feel like a stranger in my own home. No one has the faintest idea of what cheer and flourishing
+                great activity brings; and how nutered this is from poor choices; or a lack of good ones. Their surprise and
+                sketicism is not appreciated. As if anything they did was understood on some basic level, besides a norm;
+                yet, I am only ever asked the most unfamiliar question, 'as if eating Broccoli or working out was a good
+                thing....like how?'.
+                <br>&emsp;Those shoes of ours show themselves, almost clearly when under pressure, how unset they are, and
+                the road, whihc, from our sight and prior view, is not so bumpy in character. Yet, it is rough, and
+                demanding of attention; and apt to bring wear and control: as all pursuits and itineraries do. Our
+                uncertainty of which part of the path we'll take,and the evdient preview of this, to which our feet have not
+                hit earth and steadied forth, explains our current wear.
+                So mom and dad, and surely Jess, are not out to get you. They demand very little of you. But they indeed, do
+                not hunour, or at least aid, our natural happiness; nor the form it takes.
+               
+               
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
@@ -196,7 +227,7 @@
                 demanding of attention; and apt to bring wear and control: as all pursuits and itineraries do. Our
                 uncertainty of which part of the path we'll take,and the evdient preview of this, to which our feet have not
                 hit earth and steadied forth, explains our current wear.
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
@@ -213,7 +244,7 @@
                 Indeed, life fits is with such trauma, and naturally, so are we but responding to the ticks and tacks gotten
                 along the way. This is for us to enlighten our soul though: for upon near reflection, we are not in fact so
                 drug, but rather set to be, merrily, proper, and good as so.
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
@@ -245,7 +276,7 @@
                 as opposed to potatoes, rice and bread. These are not always welcomed. I would not forget, that much of your
                 weightloss comes from not eating enough, rather than eating fully, but to ineffective degree.
                 <br>&emsp;We need seeds, oranges, soft bread, quinoa and milk, along with dried fruit.
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
@@ -289,7 +320,7 @@
                 grounds, may not see much further. But life will have moved on and caught up upon reaching said point: to
                 where our measure of good is more, and beyond. And as we said, in terms of things far and about, so will
                 this come into clarity and interest by our flourishing way. "And that is about the best one could hope for."
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
@@ -321,57 +352,43 @@
                 on your contuinuity. For it is better to earn a bit less, but increase your stock, then to have alot, but
                 whither it away. "For the end is one of loss." As it were, the benefit here is one that magnifies all other
                 goods; and over time, leverages itself into fuller forms, as to increase the magnitude of our living.
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
         </div>
     </div>
     <div id="content">
         <div class="text-piece" data-id="piece7">
             <div class="title-display"></div>
             <div class="text-body">
-                So I'm thinking that if were going to stay here, that we work at Superstore. It is close, and this melds
-                with an unbridled view of being here. There's no room for pretense. We may consider our future, as regards
-                buisness, contribution or rearing. But so is this in need of clarity, and as such, living well produces
-                thus. So we need not be anywhere particular for said times to come in line. Besides that, we are merely
-                swell and pure: and this need not bank on any one localle: and can grow and adapt as well in all spots,
-                present or to come.
-                <br>&emsp;In that way, I see a similar prospect in East or West walmart. I feel there is more room to
-                negotiate, and so surely, we can achieve that marbled 2 day per week routine. Perhaps, an arrangment of
-                shorter shifts.
-                <br>&emsp;Let's say though that none of the three are hiring. We may choose to leave, be asked to, or stay
-                for the nearer prospects ahead, or something freerer and indefinite.
-                <br>&emsp;What I would proclaim, is that living unstabiliy holds a blurred view of the future; as you cannot
-                remark upon it with clear desire or ability. As such, you settle into the gradual paces of your day, or
-                idealize some broader end --as to carry you out. The struggle in this, is that living so gradually wobbles
-                at the intolerance of doing so; and so rest becomes a parched resource: as you may live fully and truly, as
-                you are both composed and definite in your striding state: but so upon the need for rest, do you crumble and
-                despair: yielding an all to common ware.
-                <br>&emsp;Compared to this, the benefit of work, or stability rather, is that you are secure in your means
-                and your further direction. This brings with it the balance of labor and liberty: but so does such things
-                have their own principle measures. At any rate, the advantage of being so set, is not itself a divine
-                privalage, or one of scorching neccessity. It is perhaps right, but not exlusivley. Our gradual ways, which
-                is to say those which are less ideal or worn, but more ripe and solid instead, do produce such future
-                remarks. Indeed, they are not hoistered by the sentiments which stability brings, and therefore lack as much
-                focus or actionable regard: but they do linger between the bounds of this, and by that, hold much concerns
-                for farther ideals, and those comparable but of a nearer sort.
-            </div><button class="edit-btn">✎</button><input type="checkbox" class="bookmark-box">
-      
+               
+                So I question whether our view of things is as solid as we believe. For one, we are not in the scenarios which appear to us on tv. Nor does it truly represent what it is like to be there. Indeed, we can imagine what it is like, but therein lies the issue. Whereas reading impresses you calmy and fully, I So mom and dad, and surely Jess, are not out to get you. They demand very little of you. But they indeed, do not hunour, or at least aid, our natural happiness; nor the form it takes.
+                 We are unsure of things, necessarily, but via circumstance too. We do not know about work, about living here, what our harmony with that means for the future. And life's mystery avails us here too. Generally, this centers on the chimeras of violence and revolt, but also our positive decree, of uniformity and fecundity. We know not where this road goes, nor if the bumps were filling are from the ground or uneven shoes.
+                 I feel like a stranger in my own home. No one has the faintest idea of what cheer and flourishing great activity brings; and how nutered this is from poor choices; or a lack of good ones. Their surprise and sketicism is not appreciated. As if anything they did was understood on some basic level, besides a norm; yet, I am only ever asked the most unfamiliar question, 'as if eating Broccoli or working out was a good thing....like how?'.
+                 Those shoes of ours show themselves, almost clearly when under pressure, how unset they are, and the road, whihc, from our sight and prior view, is not so bumpy in character. Yet, it is rough, and demanding of attention; and apt to bring wear and control: as all pursuits and itineraries do. Our uncertainty of which part of the path we'll take,and the evdient preview of this, to which our feet have not hit earth and steadied forth, explains our current wear. So mom and dad, and surely Jess, are not out to get you. They demand very little of you. But they indeed, do not hunour, or at least aid, our natural happiness; nor the form it takes.
+            </div><button class="edit-btn"></button><input type="checkbox" class="bookmark-box">
+    </div>
+   </div> 
     
 
   
 
     <div class="overlay"></div>
     <div class="modal">
-        <label>Notes:<br>
+        <label>
             <textarea id="modal-title"></textarea>
-        </label><br><br>
-        <label>Category:<br>
+            <button id="save-meta">Save</button>
+        </label>
+        <label>
             <div id="modal-category">
                 <label><input type="checkbox" value="Philo"> Philo</label><br>
                 <label><input type="checkbox" value="World"> World</label><br>
+                <label><input type="checkbox" value="Principle"> Principle</label><br>
+                <label><input type="checkbox" value="joy"> Joy</label> <br>
                 <label><input type="checkbox" value="Reflection"> Reflection</label><br>
-                <label><input type="checkbox" value="joy"> Joy</label>        </div>
+                <label><input type="checkbox" value="Grub"> Grub</label><br>
+                <label><input type="checkbox" value="Civ"> Civ</label>
+            </div>
         </label><br><br>
-        <button id="save-meta">Save</button>
+
         <button id="cancel-meta">Cancel</button>
     </div>
 
@@ -401,7 +418,20 @@
                 const color = $(this).data("color");
                 $("body").css("background-color", color);
                 localStorage.setItem("bgColor", color);
+
+                if (color.toLowerCase() === "#ffffff" || color.toLowerCase() === "white") {
+                    $("body").css("color", "black");                // body text black
+                    $(".title-display").css("color", "black");      // title-display black
+                } else {
+                    const lightTextColor = "#fff";                   // white or light color for title-display on dark bg
+                    const bodyTextColor = "hsl(38, 72%, 75%)";       // your default gold-ish color for body text
+
+                    $("body").css("color", bodyTextColor);           // body text color
+                    $(".title-display").css("color", lightTextColor);// title-display light text on colored bg
+                }
             });
+
+
 
             let activeFilters = [];
 
@@ -461,7 +491,10 @@
                 });
                 const catStr = cats.join(",");
                 const id = currentPiece.data("id");
+                const encodedTitle = title.replace(/\n/g, "<br>");
                 currentPiece.find(".title-display").text(title);
+
+
                 currentPiece.attr("data-category", catStr);
                 localStorage.setItem(id + "_title", title);
                 localStorage.setItem(id + "_cat", catStr);
@@ -501,7 +534,61 @@
                 localStorage.setItem("scrollY", window.scrollY);
             });
         });
-    </script>
+        $(function () {
+                function updateEditButtons() {
+                    const scrollTop = $(window).scrollTop();
+                    const windowHeight = $(window).height();
+
+                    $('div#content').each(function () {
+                        const $content = $(this);
+                        const $piece = $content.find('.text-piece');
+                        const $btn = $piece.find('.edit-btn');
+
+                        if ($piece.length === 0 || $btn.length === 0) return;
+
+                        const pieceTop = $piece.offset().top;
+                        const pieceBottom = pieceTop + $piece.outerHeight();
+
+                        // If any part of the piece is visible
+                        if (pieceBottom > scrollTop && pieceTop < scrollTop + windowHeight) {
+                            let centerY = scrollTop + windowHeight / 2;
+
+                            // Clamp centerY within piece bounds with 20px margin
+                            centerY = Math.max(centerY, pieceTop + 20);
+                            centerY = Math.min(centerY, pieceBottom - 20);
+
+                            const btnTop = centerY - pieceTop;
+
+                            $btn.css({
+                                top: btnTop + 'px',
+                                opacity: 1,
+                                pointerEvents: 'auto'
+                            });
+                        } else {
+                            $btn.css({
+                                opacity: 0,
+                                pointerEvents: 'none'
+                            });
+                        }
+                    });
+                }
+
+                $(window).on('scroll resize', updateEditButtons);
+                updateEditButtons();
+
+                // Example: handle edit button clicks
+              
+            });
+            function autoResizeTextarea(el) {
+                    el.style.height = "auto"; // reset height
+                    el.style.height = (el.scrollHeight) + "px"; // adjust height to content
+                }
+
+                $("#modal-title").on("input", function () {
+                    autoResizeTextarea(this);
+                });
+
+   </script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js')
@@ -513,3 +600,6 @@
 </body>
 
 </html>
+
+
+
