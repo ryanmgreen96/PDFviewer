@@ -5,7 +5,8 @@ const urlsToCache = [
   "/PDFviewer/manifest.json",
   "/PDFviewer/service-worker.js",
   "/PDFviewer/icon.png",         // Make sure this matches your icon name
-  "/PDFviewer/jquery.js",        // Include offline jQuery copy
+  "/PDFviewer/jquery.js",  
+  "/PDFviewer/Centaur.woff2"   // Include offline jQuery copy
   // Add other local files like:
   // "/PDFviewer/style.css",
   // "/PDFviewer/app.js",
