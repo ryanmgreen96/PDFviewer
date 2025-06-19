@@ -67,6 +67,8 @@
             color:#fff;
             white-space: pre-wrap;
             word-wrap: break-word;
+             margin-top: 1em;  /* or 1.5em for more space */
+  margin-bottom:.5em
         }
 
         .modal {
@@ -514,17 +516,20 @@
             });
             let showingBookmark = false;
 
-            $("#show-bookmarked").on("click", function () {
+          $("#show-bookmarked").on("click", function () {
                 const bookmarkedId = localStorage.getItem("bookmarkId");
                 if (bookmarkedId) {
                     const $target = $(`.text-piece[data-id='${bookmarkedId}']`);
-                    if ($target.length) {
-                        // Scroll smoothly to the bookmarked piece
+                    const $bookmark = $target.find(".bookmark-box");
+
+                    if ($bookmark.length) {
+                        $('html, body').animate({
+                            scrollTop: $bookmark.offset().top - 40  // buffer above checkbox
+                        }, 500);
+                    } else if ($target.length) {
                         $('html, body').animate({
                             scrollTop: $target.offset().top
                         }, 500);
-
-                       
                     } else {
                         alert("Bookmarked piece not found on this page.");
                     }
