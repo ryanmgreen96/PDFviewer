@@ -1,15 +1,15 @@
 const CACHE_NAME = 'pwa-cache-v1';
 const FILES_TO_CACHE = [
-  '/',
+  '/PDFviewer/',
   '/PDFviewer/index.html',
-  '/PDFviewer/Centaur.woff2',
   '/PDFviewer/manifest.json',
+  '/PDFviewer/service-worker.js',
   '/PDFviewer/jquery.min.js',
-  '/PDFviewer/icon.png',
-  // Add other relevant assets (CSS, images, etc.) if needed
+  '/PDFviewer/Centaur.woff2',
+  '/PDFviewer/icon.png'
 ];
 
-// Install: cache required files
+// Install: Cache all required files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -19,42 +19,39 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// Activate: Clear old cache versions
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keyList) => {
-      return Promise.all(
+    caches.keys().then((keyList) =>
+      Promise.all(
         keyList.map((key) => {
           if (key !== CACHE_NAME) {
             return caches.delete(key);
           }
         })
-      );
-    })
+      )
+    )
   );
   self.clients.claim();
 });
 
-// Fetch: serve from cache or fetch-and-cache
+// Fetch: Serve from cache, fetch-and-store if needed
 self.addEventListener('fetch', (event) => {
-  const req = event.request;
-
-  // Skip chrome-extension and other unsupported schemes
-  if (!req.url.startsWith('http')) return;
+  if (!event.request.url.startsWith('http')) return;
 
   event.respondWith(
-    caches.match(req).then((cached) => {
+    caches.match(event.request).then((cached) => {
       if (cached) return cached;
 
-      return fetch(req)
-        .then((res) => {
+      return fetch(event.request)
+        .then((response) => {
           return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(req, res.clone());
-            return res;
+            cache.put(event.request, response.clone());
+            return response;
           });
         })
-        .catch((err) => {
-          console.warn('Fetch failed:', err);
+        .catch(() => {
+          // You can add a fallback HTML or image if needed here
         });
     })
   );
